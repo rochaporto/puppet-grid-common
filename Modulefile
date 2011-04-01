@@ -1,0 +1,8 @@
+name    'rocha-glite'
+version '0.1.0'
+source 'git://github.com/rochaporto/puppet-glite'
+author 'rocha'
+license 'Apache License, Version 2.0 (the "License")'
+summary 'Resources for management glite installations'
+description 'This module provides a set of classes and definitions to manage generic glite service installations, covering gridmap file configuration, common package installation, etc.'
+project_page 'https://github.com/rochaporto/puppet-glite'
