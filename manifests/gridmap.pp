@@ -1,5 +1,4 @@
-# Performs all required configuration for gridmap like security support,
-# as defined by the gLite software stack.
+# Performs all required configuration for gridmap like security support.
 # 
 # == Examples
 #
@@ -9,7 +8,7 @@
 #
 # CERN IT/GT/DMS <it-dep-gt-dms@cern.ch>
 #
-class glite::gridmap {
+class grid-common::gridmap {
 
   package { ["edg-mkgridmap"]: ensure => latest, }
 
@@ -24,7 +23,7 @@ class glite::gridmap {
           group   => root,
           mode    => 755,
           ensure  => present,
-          content => template("glite/mkgridmap.aug");
+          content => template("grid-common/mkgridmap.aug");
   }
 
   define mkgridmap($conffile, $mapfile, $logfile) {
@@ -78,7 +77,7 @@ class glite::gridmap {
       }
   }
 
-  glite::gridmap::mkgridmap { "edg-mkgridmap":
+  grid-common::gridmap::mkgridmap { "edg-mkgridmap":
     conffile => "/opt/edg/etc/edg-mkgridmap.conf",
     mapfile  => "/etc/grid-security/grid-mapfile",
     logfile  => "/var/log/edg-mkgridmap.log",

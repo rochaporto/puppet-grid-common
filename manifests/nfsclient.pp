@@ -4,13 +4,13 @@
 # == Examples
 #
 # Simply include this class, as in:
-#  include glite::nfsclient 
+#  include grid-common::nfsclient 
 #
 # == Authors
 #
 # CERN IT/GT/DMS <it-dep-gt-dms@cern.ch>
 #
-class glite::nfsclient {
+class grid-common::nfsclient {
   package { 
     "kernel-pnfs": ensure => latest;
     "nfs-utils": ensure => "1.2.3-1";

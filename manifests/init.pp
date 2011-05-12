@@ -5,13 +5,15 @@
 # == Examples
 #
 # Simply include this class, as in:
-#   include glite
+#   include grid-common
 #
 # == Authors
 #
 # CERN IT/GT/DMS <it-dep-gt-dms@cern.ch>
 #
-class glite {
+import '*.pp'
+
+class grid-common {
 
     package { ["lcg-CA"]: ensure => latest, }
 
@@ -20,7 +22,7 @@ class glite {
             owner  => root,
             group  => root,
             mode   => 755,
-            content => template("glite/glite.sh.erb"),
+            content => template("grid-common/glite.sh.erb"),
             ensure => present;
         "glite_ldconf":
             path    => "/etc/ld.so.conf.d/glite.conf",
