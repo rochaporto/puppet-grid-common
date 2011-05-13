@@ -38,7 +38,10 @@ class grid-common::gridmap {
     }
 
     cron { "$name-cron":
-      command     => "(date; /opt/edg/libexec/edg-mkgridmap/edg-mkgridmap.pl --conf=$conffile --output=$mapfile --safe) >> $logfile 2>&1",
+      command     => $grid_flavour ? {
+        "glite" => "(date; /opt/edg/libexec/edg-mkgridmap/edg-mkgridmap.pl --conf=$conffile --output=$mapfile --safe) >> $logfile 2>&1",
+        default => "(date; /usr/libexec/edg-mkgridmap/edg-mkgridmap.pl --conf=$conffile --output=$mapfile --safe) >> $logfile 2>&1",
+      },
       environment => "PATH=/sbin:/bin:/usr/sbin:/usr/bin",
       user        => root,
       hour        => [5,11,18,23],
@@ -51,7 +54,10 @@ class grid-common::gridmap {
 
     exec { "$conffile-exec":
       path        => "/usr/bin:/usr/sbin:/bin:/opt/lcg/bin",
-      command     => "/opt/edg/libexec/edg-mkgridmap/edg-mkgridmap.pl --conf=$conffile --output=$mapfile --safe",
+      command     => $grid_flavour ? {
+        "glite" => "/opt/edg/libexec/edg-mkgridmap/edg-mkgridmap.pl --conf=$conffile --output=$mapfile --safe",
+        default => "/usr/libexec/edg-mkgridmap/edg-mkgridmap.pl --conf=$conffile --output=$mapfile --safe",
+      },
       refreshonly => true,
     }
   }  
@@ -78,9 +84,15 @@ class grid-common::gridmap {
   }
 
   grid-common::gridmap::mkgridmap { "edg-mkgridmap":
-    conffile => "/opt/edg/etc/edg-mkgridmap.conf",
+    conffile => $grid_flavour ? {
+      "glite" => "/opt/edg/etc/edg-mkgridmap.conf",
+      default => "/etc/edg-mkgridmap.conf",
+    },
     mapfile  => "/etc/grid-security/grid-mapfile",
     logfile  => "/var/log/edg-mkgridmap.log",
-    require  => [ File["edg_etc"], File["/etc/grid-security"] ],
+    require  => $grid_flavour ? {
+      "glite" => [ File["edg_etc"], File["/etc/grid-security"] ],
+      default => [ File["/etc/grid-security"] ],
+    },
   }
 }

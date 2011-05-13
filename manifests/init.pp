@@ -17,6 +17,39 @@ class grid-common {
 
     package { ["lcg-CA"]: ensure => latest, }
 
+    case $grid_flavour {
+      "glite": {
+        file {
+          "glite":
+              path   => "/opt/glite",
+              owner  => root,
+              group  => root,
+              mode   => 755,
+              ensure => directory;
+          "glite_etc":
+              path    => "/opt/glite/etc",
+              owner   => root,
+              group   => root,
+              mode    => 755,
+              ensure  => directory,
+              require => File["glite"];
+          "edg":
+              path   => "/opt/edg",
+              owner  => root,
+              group  => root,
+              mode   => 755,
+              ensure => directory;
+          "edg_etc":
+              path    => "/opt/edg/etc",
+              owner   => root,
+              group   => root,
+              mode    => 755,
+              ensure  => directory,
+              require => File["edg"];
+        }
+      }
+    }
+
     file { 
         "/etc/profile.d/glite.sh":
             owner  => root,
@@ -36,32 +69,6 @@ class grid-common {
             group   => root,
             mode    => 644,
             content => "/opt/globus/lib";
-        "glite":
-            path   => "/opt/glite",
-            owner  => root,
-            group  => root,
-            mode   => 755,
-            ensure => directory;
-        "glite_etc":
-            path    => "/opt/glite/etc",
-            owner   => root,
-            group   => root,
-            mode    => 755,
-            ensure  => directory,
-            require => File["glite"];
-        "edg":
-            path   => "/opt/edg",
-            owner  => root,
-            group  => root,
-            mode   => 755,
-            ensure => directory;
-        "edg_etc":
-            path    => "/opt/edg/etc",
-            owner   => root,
-            group   => root,
-            mode    => 755,
-            ensure  => directory,
-            require => File["edg"];
     }
 
     exec { "glite_ldconfig":
