@@ -51,6 +51,11 @@ class grid-common {
     }
 
     file { 
+        "/etc/grid-security":
+          owner  => root,
+          group  => root,
+          mode   => 755,
+          ensure => directory;
         "/etc/profile.d/glite.sh":
             owner  => root,
             group  => root,

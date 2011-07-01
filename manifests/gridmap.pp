@@ -13,11 +13,6 @@ class grid-common::gridmap {
   package { ["edg-mkgridmap"]: ensure => latest, }
 
   file { 
-      "/etc/grid-security":
-          owner  => root,
-          group  => root,
-          mode   => 755,
-          ensure => directory;
       "/usr/share/augeas/lenses/dist/mkgridmap.aug":
           owner   => root,
           group   => root,
